@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>EquipTrak</title>
+		<!-- Latest compiled and minified CSS -->
+		<link
+			rel="stylesheet"
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"
+		/>
+
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<!-- Latest compiled JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+		<script src="{{ url_for('static', filename='js/main.js')}}"></script>
+	</head>
+	<body>
+		<div class="container">
+			<nav class="navbar navbar-inverse"></nav>
+			<main>
+				<h1>Equipment Details</h1>
+				<div class="container">
+					<fieldset disabled="disabled">
+						<div class="form-group">
+							<label for="equipId">Equipment ID</label>
+							<input
+								type="text"
+								name="equipId"
+								id="equipId"
+								class="form-control-lg col-sm-12"
+								value="{{ equip['Equipment ID'] }}"
+							/>
+						</div>
+						<div class="form-group">
+							<label for="manuModel">Manufacture - Model</label>
+							<input
+								type="text"
+								name="manuModel"
+								id="manuModel"
+								class="form-control-lg col-sm-12"
+								value="{{ equip.manufacturer }} - {{ equip.model }}"
+							/>
+						</div>
+						<div class="form-group">
+							<label for="serial">Serial</label>
+							<input
+								type="text"
+								name="serial"
+								id="serial"
+								class="form-control-lg col-sm-12"
+								value="{{ equip.serial }}"
+							/>
+						</div>
+						<div class="form-group">
+							<label for="inOutStatus">Checkout Status</label>
+							<input
+								type="text"
+								name="inOutStatus"
+								id="inOutStatus"
+								class="form-control-lg col-sm-12"
+								value="{{ equip.status }}"
+							/>
+						</div>
+						<!-- <div class="form-group">
+							<label for="equipStatus">Equipment Status</label>
+							<input
+								type="text"
+								name="equipStatus"
+								id="equipStatus"
+								class="form-control-lg col-sm-12"
+								value="Excellent/Good/Fair/Need Repair"
+							/>
+						</div> -->
+						<div class="form-group">
+							<label for="lastUsedBy">Last Used By</label>
+							<input
+								type="text"
+								name="lastUsedBy"
+								id="lastUsedBy"
+								class="form-control-lg col-sm-12"
+								value="{{ equip.first_name }} {{ equip.last_Name }}"
+							/>
+						</div>
+						<div class="form-group">
+							<label for="lastUsedDate">Last Used Date</label>
+							<input
+								type="text"
+								name="lastUsedDate"
+								id="lastUsedDate"
+								class="form-control-lg col-sm-12"
+								value="{{ equip.lastCheckoutTime }}"
+							/>
+						</div>
+						<!-- <div class="form-group">
+							<label for="action">Actions</label>
+							<input
+								type="text"
+								name="action"
+								id="action"
+								class="form-control-lg col-sm-12"
+								value="Active/Unactivte"
+							/>
+						</div> -->
+					</fieldset>
+				</div>
+				<div class="container">
+					<h1>Equipment Usage History</h1>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th scope="col">Checkout Name</th>
+								<th scope="col">Checkout Time</th>
+								<th scope="col">Checkout Condtion</th>
+								<th scope="col">Checkin Name</th>
+								<th scope="col">Checkin Time</th>
+								<th scope="col">Checkin Condtion</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for item in trans %}
+							<tr onclick="window.location='/transaction/{{ item.trans_id }}';">
+								<td>{{ item.first_name }} {{ item.last_name }}</td>
+								<td>{{ item.checkout_time }}</td>
+								<td>{{ item.condition_out }}</td>
+								<td>{{ item.inFirstName }} {{ item.inLastName }}</td>
+								<td>{{ item.checkin_time }}</td>
+								<td>{{ item.condition_in }}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</main>
+		</div>
+	</body>
+</html>

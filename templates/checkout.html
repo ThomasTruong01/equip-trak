@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>EquipTrak</title>
+		<!-- Latest compiled and minified CSS -->
+		<link
+			rel="stylesheet"
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"
+		/>
+
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<!-- Latest compiled JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+		<script src="{{ url_for('static', filename='js/main.js')}}"></script>
+	</head>
+	<body>
+		<div class="container">
+			<nav class="navbar navbar-inverse"></nav>
+			<main>
+				<h1>Checkout / Checkin</h1>
+				<form id="checkEquip">
+					<div class="form-group">
+						<label for="equipment">Equipment ID</label>
+						<input
+							type="text"
+							list="equipList"
+							name="equipId"
+							id="equipId"
+							value=""
+							class="form-control custom-select custom-select-sm"
+						/>
+						<datalist id="equipList" class="custom-select custom-select-sm">
+							{% for item in equip %}
+							<option value="{{ item.equip_id }}"></option>
+							{% endfor %}
+						</datalist>
+					</div>
+				</form>
+				<div id="checkoutForm"></div>
+			</main>
+		</div>
+	</body>
+</html>
