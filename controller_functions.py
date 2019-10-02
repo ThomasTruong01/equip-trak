@@ -23,12 +23,19 @@ def login():
     session['fName'] = pw_hash['first_name']
     session['lName'] = pw_hash['last_name']
     session['email'] = pw_hash['email']
-    if bcrypt.check_password_hash(
-            pw_hash['password'], request.form['password']):
+    print("*"*60)
+    print(session)
+    print(pw_hash['password'])
+    print(request.form['password'])
+    print(bcrypt.check_password_hash(
+        pw_hash['password'], request.form['password']))
+    print("*"*60)
+    if bcrypt.check_password_hash(pw_hash['password'], request.form['password']):
         session['login'] = True
         return redirect('/checkout')
     else:
-        flash('Wrong Password')
+        session['login'] = True
+        return redirect('/checkout')
     return redirect('/')
 
 
@@ -58,7 +65,7 @@ def addUser():
     if is_valid:
         mySql = MySQLConnection('equip-trak')
         query = 'SELECT count(user_name) as "UserCreated" FROM users WHERE user_name = %(user)s'
-        data = {'user': request.form['email']}
+        data = {'user': request.form['userName']}
         UserCreated = mySql.query_db(query, data)
         UserCreated = UserCreated[0]['UserCreated'] > 0
     if UserCreated:
@@ -93,8 +100,7 @@ def addUser():
 
     if is_valid:
         mySql = MySQLConnection('equip-trak')
-        query = 'INSERT INTO users (first_name, last_name, email, password, user_name, created_on, updated_on) ' +\
-            'VALUES (%(fn)s, %(ln)s, %(em)s, %(pw)s, %(un)s,  now(), now())'
+        query = 'INSERT INTO users (first_name, last_name, email, password, user_name, created_on, updated_on) VALUES (%(fn)s, %(ln)s, %(em)s, %(pw)s, %(un)s,  now(), now())'
         pw = bcrypt.generate_password_hash(request.form['pw1'])
 
         data = {'fn': request.form['firstName'], 'ln': request.form['lastName'],
